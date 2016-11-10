@@ -18,5 +18,8 @@ namespace HummusInWonderland.Models
         [Display(Name = "מחיר המנה")]
         [Required(ErrorMessage = "שדה חובה")]
         public int Price { get; set; }
+
+        [Display(Name = "תמונת המנה")]
+        public string ProductImage { get; set; }
     }
 }
