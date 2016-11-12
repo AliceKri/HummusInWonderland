@@ -9,43 +9,27 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductImage)
-        </th>
-        <th></th>
-    </tr>
+<div class="row" id="menu">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+        <div class="list-group" dir="rtl">
+            @foreach (var item in Model)
+            {
+                <div class="list-group-item">
+                    <h3 class="list-group-item-heading">
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </h3>
+                    <p class="list-group-item-text">
+                        @Html.DisplayFor(modelItem => item.ProductDescription)
+                    </p>
+                    <div style="margin-top: 37px;">
+                        @Html.DisplayFor(modelItem => item.Price) $
+                    </div>
+                    <img src="~/Images/menu/cheese_cake_top.png"/>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductImage)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
-        </td>
-    </tr>
-}
 
-</table>
