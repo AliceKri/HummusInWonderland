@@ -3,6 +3,7 @@ using HummusInWonderland.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -53,76 +54,82 @@ namespace HummusInWonderland.Controllers
             return View(query.ToList()); ;
         }
 
-        // GET: Orders/Details/5
-        public ActionResult Details(int id)
+        public ActionResult ShoppingCart()
         {
-            return View();
+            List<Menu> order = new List<Menu>();
+
+            int total = 0;
+
+            foreach (var item in (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"])
+            {
+                var product = db.Menus.Where(a => a.ProductID == item).FirstOrDefault();
+                if (product != null)
+                {
+                    order.Add(product);
+                    total += product.Price;
+                }
+            }
+
+            ViewBag.Total = total;
+            return View(order);
         }
 
-        // GET: Orders/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Orders/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public JsonResult AddToCart(int productID)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            List<int> shoppingList = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];
+            shoppingList.Add(productID);
+            return Json(true);
+        }
 
-                return RedirectToAction("Index");
-            }
-            catch
+        public JsonResult DeleteFromCart(int productID = 0)
+        {
+            List<int> cart = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];
+            cart.Remove(productID);
+            return Json(cart.Count);
+        }
+
+        public JsonResult Pay()
+        {
+            if (System.Web.HttpContext.Current.Session["user"] == null)
             {
-                return View();
+                return Json(false);
+            }
+            else
+            {
+                foreach (var item in (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"])
+                {
+                    Order order = new Order
+                    {
+                        CustomerId = ((Customer)System.Web.HttpContext.Current.Session["user"]).CustomerId,
+                        ProductID = db.Menus.Where(x => x.ProductID == item).FirstOrDefault().ProductID,
+                        OrderDate = DateTime.Now,
+                        TotalPrice = db.Menus.Where(x => x.ProductID == item).FirstOrDefault().Price
+                    };
+
+                    db.Orders.Add(order);
+                    db.Customers.Find(order.CustomerId).Orders.Add(order);
+                }
+
+                db.SaveChanges();
+                ((List<int>)System.Web.HttpContext.Current.Session["shoppingCart"]).Clear();
+
+                return Json(true);
             }
         }
 
-        // GET: Orders/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult GetFirstName(string term)
         {
-            return View();
+            var firstNames = (from p in db.Orders where p.Customer.FirstName.Contains(term) select p.Customer.FirstName).Distinct().Take(10);
+
+            return Json(firstNames, JsonRequestBehavior.AllowGet);
         }
 
-        // POST: Orders/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult GetAlbumName(string term)
         {
-            try
-            {
-                // TODO: Add update logic here
+            var albumNames = (from p in db.Orders where p.menu.ProductName.Contains(term) select p.menu.ProductName).Distinct().Take(10);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Orders/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Orders/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return Json(albumNames, JsonRequestBehavior.AllowGet);
         }
     }
 }
