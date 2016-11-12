@@ -6,7 +6,7 @@ namespace HummusInWonderland.Models
 {
     public class Customer
     {
-        public int CustomerId { get; set; }
+        public int CustomerID { get; set; }
 
         [Display(Name = "שם פרטי")]
         [Required(ErrorMessage = "שדה חובה")]

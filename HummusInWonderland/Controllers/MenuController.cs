@@ -18,8 +18,7 @@ namespace HummusInWonderland.Controllers
         // GET: Menu
         public ActionResult Index()
         {
-            ViewBag.Menu = new SelectList(db.Menus, "ProductId", "ProductName");
-            return View();
+            return View(db.Menus.ToList());
         }
 
         [HttpPost]

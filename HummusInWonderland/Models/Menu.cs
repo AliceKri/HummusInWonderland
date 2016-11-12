@@ -5,7 +5,8 @@ namespace HummusInWonderland.Models
 {
     public class Menu
     {
-        public int ProductID { get; set; }
+        [Key]
+        public int MenuID { get; set; }
 
         [Display(Name = "שם המנה")]
         [Required(ErrorMessage = "שדה חובה")]

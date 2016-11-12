@@ -62,7 +62,7 @@ namespace HummusInWonderland.Controllers
 
             foreach (var item in (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"])
             {
-                var product = db.Menus.Where(a => a.ProductID == item).FirstOrDefault();
+                var product = db.Menus.Where(a => a.MenuID == item).FirstOrDefault();
                 if (product != null)
                 {
                     order.Add(product);
@@ -101,10 +101,10 @@ namespace HummusInWonderland.Controllers
                 {
                     Order order = new Order
                     {
-                        CustomerId = ((Customer)System.Web.HttpContext.Current.Session["user"]).CustomerId,
-                        ProductID = db.Menus.Where(x => x.ProductID == item).FirstOrDefault().ProductID,
+                        CustomerId = ((Customer)System.Web.HttpContext.Current.Session["user"]).CustomerID,
+                        ProductID = db.Menus.Where(x => x.MenuID == item).FirstOrDefault().MenuID,
                         OrderDate = DateTime.Now,
-                        TotalPrice = db.Menus.Where(x => x.ProductID == item).FirstOrDefault().Price
+                        TotalPrice = db.Menus.Where(x => x.MenuID == item).FirstOrDefault().Price
                     };
 
                     db.Orders.Add(order);

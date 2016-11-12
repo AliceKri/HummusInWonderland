@@ -8,7 +8,7 @@ namespace HummusInWonderland.Models
 {
     public class Branch
     {
-        public int BranchId { get; set; }
+        public int BranchID { get; set; }
 
         [Display(Name = "שם החנות")]
         [Required(ErrorMessage = "שדה חובה")]

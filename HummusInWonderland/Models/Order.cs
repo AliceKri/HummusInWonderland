@@ -5,7 +5,7 @@ namespace HummusInWonderland.Models
 {
     public class Order
     {
-        public int OrderId { get; set; }
+        public int OrderID { get; set; }
 
         [Required(ErrorMessage = "שדה חובה")]
         public int CustomerId { get; set; }
