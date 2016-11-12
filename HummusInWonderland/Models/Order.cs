@@ -19,7 +19,7 @@ namespace HummusInWonderland.Models
         [Display(Name = "מחיר כולל")]
         public int TotalPrice { get; set; }
 
-        public virtual Menu menu { get; set; }
+        public virtual Product menu { get; set; }
         public virtual Customer Customer { get; set; }
     }
 }

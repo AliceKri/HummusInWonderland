@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HummusInWonderland.Models
 {
-    public class Menu
+    public class Product
     {
         [Key]
-        public int MenuID { get; set; }
+        public int ProductID { get; set; }
 
         [Display(Name = "שם המנה")]
         [Required(ErrorMessage = "שדה חובה")]

@@ -1,4 +1,4 @@
-﻿using HummhusInWonderland.DAL;
+﻿using HummusInWonderland.DAL;
 using HummusInWonderland.Models;
 using System;
 using System.Collections.Generic;
@@ -18,13 +18,13 @@ namespace HummusInWonderland.Controllers
         // GET: Menu
         public ActionResult Index()
         {
-            return View(db.Menus.ToList());
+            return View(db.Menu.ToList());
         }
 
         [HttpPost]
         public ActionResult Index(int ProductID, string ProductDescription, String ProductName, int? Price)
         {
-            var menus = from a in db.Menus select a;
+            var menus = from a in db.Menu select a;
 
             if (!String.IsNullOrEmpty(ProductDescription))
             {
@@ -41,7 +41,7 @@ namespace HummusInWonderland.Controllers
                 menus = menus.Where(x => x.Price == Price);
             }
 
-            ViewBag.MaxPrice = db.Menus.Select(x => x.Price).Max();
+            ViewBag.MaxPrice = db.Menu.Select(x => x.Price).Max();
             return View(menus.ToList());
         }
 
@@ -53,7 +53,7 @@ namespace HummusInWonderland.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Menu menu = db.Menus.Find(productID);
+            Product menu = db.Menu.Find(productID);
 
             if (menu == null)
             {
@@ -71,7 +71,7 @@ namespace HummusInWonderland.Controllers
 
         // POST: Menu/Create
         [HttpPost]
-        public ActionResult Create(Menu menu, HttpPostedFileBase file)
+        public ActionResult Create(Product menu, HttpPostedFileBase file)
         {
             var physicalPath = "";
             var path = "";
@@ -98,7 +98,7 @@ namespace HummusInWonderland.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Menus.Add(menu);
+                db.Menu.Add(menu);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -114,7 +114,7 @@ namespace HummusInWonderland.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Menu menu = db.Menus.Find(id);
+            Product menu = db.Menu.Find(id);
             if (menu == null)
             {
                 return HttpNotFound();
@@ -127,7 +127,7 @@ namespace HummusInWonderland.Controllers
 
         // POST: Menu/Edit/5
         [HttpPost]
-        public ActionResult Edit(Menu menu, HttpPostedFileBase file)
+        public ActionResult Edit(Product menu, HttpPostedFileBase file)
         {
             var physicalPath = "";
 
@@ -165,7 +165,7 @@ namespace HummusInWonderland.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Menu menu = db.Menus.Find(productId);
+            Product menu = db.Menu.Find(productId);
             if (menu == null)
             {
                 return HttpNotFound();
@@ -179,15 +179,15 @@ namespace HummusInWonderland.Controllers
         public ActionResult Delete(int productId)
         {
 
-            Menu menu = db.Menus.Find(productId);
-            db.Menus.Remove(menu);
+            Product menu = db.Menu.Find(productId);
+            db.Menu.Remove(menu);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public ActionResult GetProductName(string productName)
         {
-            var artistNames = (from p in db.Menus where p.ProductName.Contains(productName) select p.ProductName).Distinct().Take(10);
+            var artistNames = (from p in db.Menu where p.ProductName.Contains(productName) select p.ProductName).Distinct().Take(10);
 
             return Json(artistNames, JsonRequestBehavior.AllowGet);
         }

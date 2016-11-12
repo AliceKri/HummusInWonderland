@@ -50,5 +50,5 @@ Temporary Items
 HummusInWonderland/bin/HummusInWonderland.dll
 HummusInWonderland/bin/HummusInWonderland.pdb
 HummusInWonderland/obj/Debug/*
-.vs/*
-.vs
+HummusInWonderland/.vs/*
+../.vs

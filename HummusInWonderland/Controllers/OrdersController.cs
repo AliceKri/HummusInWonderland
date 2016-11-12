@@ -1,4 +1,4 @@
-﻿using HummhusInWonderland.DAL;
+﻿using HummusInWonderland.DAL;
 using HummusInWonderland.Models;
 using System;
 using System.Collections.Generic;
@@ -56,13 +56,13 @@ namespace HummusInWonderland.Controllers
 
         public ActionResult ShoppingCart()
         {
-            List<Menu> order = new List<Menu>();
+            List<Product> order = new List<Product>();
 
             int total = 0;
 
             foreach (var item in (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"])
             {
-                var product = db.Menus.Where(a => a.MenuID == item).FirstOrDefault();
+                var product = db.Menu.Where(a => a.ProductID == item).FirstOrDefault();
                 if (product != null)
                 {
                     order.Add(product);
@@ -102,9 +102,9 @@ namespace HummusInWonderland.Controllers
                     Order order = new Order
                     {
                         CustomerId = ((Customer)System.Web.HttpContext.Current.Session["user"]).CustomerID,
-                        ProductID = db.Menus.Where(x => x.MenuID == item).FirstOrDefault().MenuID,
+                        ProductID = db.Menu.Where(x => x.ProductID == item).FirstOrDefault().ProductID,
                         OrderDate = DateTime.Now,
-                        TotalPrice = db.Menus.Where(x => x.MenuID == item).FirstOrDefault().Price
+                        TotalPrice = db.Menu.Where(x => x.ProductID == item).FirstOrDefault().Price
                     };
 
                     db.Orders.Add(order);
