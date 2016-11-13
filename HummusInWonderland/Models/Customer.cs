@@ -4,6 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HummusInWonderland.Models
 {
+    public enum Gender
+    {
+        זכר,
+        נקבה
+    };
+
     public class Customer
     {
         public int CustomerID { get; set; }
@@ -23,7 +29,7 @@ namespace HummusInWonderland.Models
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "מין")]
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
 
         [Display(Name = "אימייל")]
         [Required(ErrorMessage = "שדה חובה")]

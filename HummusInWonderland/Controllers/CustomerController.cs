@@ -25,7 +25,7 @@ namespace HummusInWonderland.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string FirstName, string LastName, string City, string Gender)
+        public ActionResult Index(string FirstName, string LastName, string City, Gender gender)
         {
             var customers = from c in db.Customers select c;
 
@@ -44,9 +44,9 @@ namespace HummusInWonderland.Controllers
                 customers = customers.Where(x => x.City == City);
             }
 
-            if (!string.IsNullOrEmpty(Gender))
+            if (gender != null)
             {
-                customers = customers.Where(x => x.Gender == Gender);
+                customers = customers.Where(x => x.Gender == gender);
             }
 
             ViewBag.City = new SelectList(db.Customers.Select(x => x.City).Distinct());
