@@ -78,15 +78,26 @@ namespace HummusInWonderland.Controllers
         public JsonResult AddToCart(int productID)
         {
             List<int> shoppingList = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];
-            shoppingList.Add(productID);
+
+            if (shoppingList == null)
+            {
+                shoppingList = new List<int>();
+                System.Web.HttpContext.Current.Session["shoppingCart"] = shoppingList;
+            }
+            if (!shoppingList.Contains(productID))
+                shoppingList.Add(productID);
             return Json(true);
         }
 
         public JsonResult DeleteFromCart(int productID = 0)
         {
             List<int> cart = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];
-            cart.Remove(productID);
-            return Json(cart.Count);
+            if (cart != null)
+            {
+                cart.Remove(productID);
+                return Json(cart.Count);
+            } else
+                return Json(0);
         }
 
         public JsonResult Pay()

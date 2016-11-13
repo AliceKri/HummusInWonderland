@@ -20,6 +20,10 @@ namespace HummusInWonderland.Models
         [Required(ErrorMessage = "שדה חובה")]
         public int Price { get; set; }
 
+        [Display(Name = "צמחוני")]
+        [Required(ErrorMessage = "שדה חובה")]
+        public bool Vegi { get; set; }
+
         [Display(Name = "תמונת המנה")]
         public string ProductImage { get; set; }
     }
