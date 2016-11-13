@@ -14,8 +14,8 @@ namespace HummusInWonderland.DAL
             var products = new List<Product>
             {
                 new Product {ProductName="חומוס", Price=26, ProductDescription="חומוס טרי", ProductID=1, ProductImage="none"},
-                new Product {ProductName="חומוס", Price=26, ProductDescription="חומוס טרי", ProductID=1, ProductImage="none"},
-                new Product {ProductName="חומוס", Price=26, ProductDescription="חומוס טרי", ProductID=1, ProductImage="none"}
+                new Product {ProductName="חומוס", Price=26, ProductDescription="חומוס טרי", ProductID=2, ProductImage="none"},
+                new Product {ProductName="חומוס", Price=26, ProductDescription="חומוס טרי", ProductID=3, ProductImage="none"}
             };
 
             products.ForEach(p => context.Menu.Add(p));
