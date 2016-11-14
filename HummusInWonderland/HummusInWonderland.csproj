@@ -292,7 +292,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\Branch\Index.cshtml" />
     <Content Include="Views\Orders\Delete.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
@@ -301,8 +300,13 @@
     <Content Include="Views\Orders\ShoppingCart.cshtml" />
     <Content Include="Views\Menu\Delete.cshtml" />
     <Content Include="Views\Menu\Details.cshtml" />
-    <Content Include="Views\Menu\Edit.cshtml" />
     <Content Include="Views\Menu\ShoppingCart.cshtml" />
+    <Content Include="Views\Menu\Create.cshtml" />
+    <Content Include="Views\Menu\Edit.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\Branch\Edit.cshtml" />
+    <Content Include="Views\Branch\DeleteConfirmed.cshtml" />
+    <Content Include="Views\Branch\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,6 +15,9 @@ namespace HummusInWonderland.Models
         [Required(ErrorMessage = "שדה חובה")]
         public int CustomerId { get; set; }
 
+        [Required(ErrorMessage = "שדה חובה")]
+        public int BranchID { get; set; }
+
         [Display(Name = "תאריך הזמנה")]
         public DateTime OrderDate { get; set; }
 

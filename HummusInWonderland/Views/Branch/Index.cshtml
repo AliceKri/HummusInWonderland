@@ -4,9 +4,7 @@
     ViewBag.Title = "סניפים";
 }
 
-<h2>Index</h2>
-
-<h2>סניפים</h2>
+<h2 dir="rtl">סניפים</h2>
 
 @section scripts{
 
@@ -31,14 +29,14 @@
 
 @using (Html.BeginForm("Index", "Branch", FormMethod.Post))
 {
-    <label>חיפוש : </label>
-    <div>
+    <label dir="rtl">חיפוש : </label>
+    <ta dir="rtl" align="center">
         <label>שם סניף : </label>
         <input type="text" name="BranchName" id="BranchName" />
         <label>עיר : </label>
         <input type="text" name="City" id="City" />
         <input type="submit" name="שלח" value="חפש" />
-    </div>
+    </ta>
 }
 
 @if (user != null && user.FirstName == "admin")
@@ -51,7 +49,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table" dir="rtl" align="center">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.BranchName)

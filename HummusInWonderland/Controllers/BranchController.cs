@@ -1,7 +1,10 @@
 ﻿using HummusInWonderland.DAL;
+using HummusInWonderland.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -31,62 +34,70 @@ namespace HummusInWonderland.Controllers
 
         // POST: Branch/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Branch branch)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                db.Branches.Add(branch);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(branch);
         }
 
         // GET: Branch/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Branch branch = db.Branches.Find(id);
+            if (branch == null)
+            {
+                return HttpNotFound();
+            }
+            return View(branch);
         }
 
         // POST: Branch/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Branch branch)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                db.Entry(branch).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(branch);
         }
 
         // GET: Branch/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Branch branch = db.Branches.Find(id);
+            if (branch == null)
+            {
+                return HttpNotFound();
+            }
+            return View(branch);
         }
 
         // POST: Branch/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            Branch branch = db.Branches.Find(id);
+            db.Branches.Remove(branch);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
