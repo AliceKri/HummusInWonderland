@@ -82,3 +82,8 @@ c:\users\alisa\documents\visual studio 2015\Projects\HummusInWonderland\HummusIn
 c:\users\alisa\documents\visual studio 2015\Projects\HummusInWonderland\HummusInWonderland\obj\Debug\HummusInWonderland.pdb
 C:\Users\Alisa\Documents\Visual Studio 2015\Projects\HummusInWonderland\HummusInWonderland\obj\Debug\HummusInWonderland.Migrations.InitialCreate.resources
 C:\Users\Alisa\Documents\Visual Studio 2015\Projects\HummusInWonderland\HummusInWonderland\obj\Debug\HummusInWonderland.csproj.GenerateResource.Cache
+C:\Users\amith\Source\Repos\HummusInWonderland\HummusInWonderland\obj\Debug\HummusInWonderland.csprojResolveAssemblyReference.cache
+C:\Users\amith\Source\Repos\HummusInWonderland\HummusInWonderland\obj\Debug\HummusInWonderland.Migrations.InitialCreate.resources
+C:\Users\amith\Source\Repos\HummusInWonderland\HummusInWonderland\obj\Debug\HummusInWonderland.csproj.GenerateResource.Cache
+C:\Users\amith\Source\Repos\HummusInWonderland\HummusInWonderland\obj\Debug\HummusInWonderland.dll
+C:\Users\amith\Source\Repos\HummusInWonderland\HummusInWonderland\obj\Debug\HummusInWonderland.pdb
