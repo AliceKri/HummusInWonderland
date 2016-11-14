@@ -12,32 +12,33 @@ namespace HummusInWonderland.DAL
     {
         protected override void Seed(HummhusInWonderlandContext context)
         {
+ 
             var menu = new List<Product>
             {
                 new Product { ProductID = 1,   ProductName = "חומוס בשר",
                     ProductDescription = "חומוס עם בשר בקר טחון, גרגרים, פטרוזיליה, שמן זית, כמון, פפריקה, 2פיתות, חמוצים",
-                Price = 38, ProductImage = "/Images/hummus_meat_top.png"},
+                Price = 38, ProductImage = "/Images/hummus_meat_top.png", Vegi = false},
                 new Product { ProductID = 2,   ProductName = "חומוס פטריות",
                     ProductDescription = "חומוס עם פטריות שלמות, מבושלות עם בצל ותבלינים. מוגש עם גרגרים, פטרוזיליה, שמן זית, כמון, פפריקה, 2פיתות, חמוצים",
-                Price = 34, ProductImage = "/Images/hummus_mushroom_top.png"},
+                Price = 34, ProductImage = "/Images/hummus_mushroom_top.png", Vegi = true},
                 new Product { ProductID = 3,   ProductName = "חומוס צנובר",
                     ProductDescription = "חומוס עם צנובר קלוי בתנור, מוגש עם גרגרים, פטרוזיליה, שמן זית, כמון, פפריקה, 2פיתות, חמוצים",
-                Price = 34, ProductImage = "/Images/hummus_tznubar_top.png"},
+                Price = 34, ProductImage = "/Images/hummus_tznubar_top.png", Vegi = true},
                 new Product { ProductID = 4,   ProductName = "חומוס",
                     ProductDescription = "חומוס עם גרגרים, פטרוזיליה, שמן זית, ביצה, כמון, פפריקה, 2פיתות, חמוצים",
-                Price = 25, ProductImage = "/Images/hummus_top.png"},
+                Price = 25, ProductImage = "/Images/hummus_top.png", Vegi = true},
                 new Product { ProductID = 5,   ProductName = "חומוס פול",
                     ProductDescription = "חומוס עם פול גרגרים, פטרוזיליה, שמן זית, ביצה, כמון, פפריקה, , 2פיתות, חמוצים",
-                Price = 25,ProductImage = "/Images/hummus_ful_top.png"},
+                Price = 25,ProductImage = "/Images/hummus_ful_top.png", Vegi = true},
                 new Product { ProductID = 6,   ProductName = "חומוס משאוושה",
                     ProductDescription = "משוואשה על חומוס מוגשת עם גרגרים, פטרוזיליה, שמן זית, ביצה, כמון, פפריקה, 2פיתות, חמוצים",
-                Price = 25,ProductImage = "/Images/mashausha_top.png"},
+                Price = 25,ProductImage = "/Images/mashausha_top.png", Vegi = true},
                 new Product { ProductID = 7,   ProductName = "המשולשת",
                     ProductDescription = "1/3חומוס 1/3משוואשה 1/3פול, מוגשת עם גרגרים, פטרוזיליה, שמן זית, ביצה, כמון, פפריקה, 2פיתות, חמוצים",
-                Price = 25,ProductImage = "/Images/hummus_tri_top.png"},
+                Price = 25,ProductImage = "/Images/hummus_tri_top.png", Vegi = true},
                 new Product { ProductID = 8,   ProductName = "מנה סלט",
                     ProductDescription = "מנת סלט עם חומוס, טחינה, גרגרים, וביצה",
-                Price = 25,ProductImage = "/hummus_salad_front.png"},
+                Price = 25,ProductImage = "/hummus_salad_front.png", Vegi = true},
 
             };
             menu.ForEach(m => context.Menu.AddOrUpdate(p => p.ProductID, m));
@@ -58,7 +59,9 @@ namespace HummusInWonderland.DAL
                 new Customer {CustomerID = 6, FirstName = "בר", LastName ="רפאלי", BirthDate = DateTime.Parse("1985-09-13"),
                 Gender = Gender.female, Email = "barrefaeli@gmail.com", City ="תל אביב", Street = "הדוגמנויות", Password ="1234567", PhoneNumber = "0526839072"},
                 new Customer {CustomerID = 7, FirstName = "גל", LastName ="גדות", BirthDate = DateTime.Parse("1986-02-18") ,
-                Gender = Gender.female, Email = "galgadot@gmail.com", City ="תל אביב", Street = "הדוגמנויות", Password ="1234567", PhoneNumber = "0508362973"}
+                Gender = Gender.female, Email = "galgadot@gmail.com", City ="תל אביב", Street = "הדוגמנויות", Password ="1234567", PhoneNumber = "0508362973"},
+                new Customer {CustomerID = 7, FirstName = "admin", LastName ="admin", BirthDate = DateTime.Parse("1986-02-18") ,
+                Gender = Gender.female, Email = "galgadot@gmail.com", City ="תל אביב", Street = "הדוגמנויות", Password ="111111", PhoneNumber = "0508362873"}
             };
             customer.ForEach(c => context.Customers.AddOrUpdate(p => p.CustomerID, c));
             context.SaveChanges();
@@ -66,13 +69,14 @@ namespace HummusInWonderland.DAL
 
             var orders = new List<Order>
             {
-                new Order { OrderID = 1, CustomerId = 1, ProductID = 2, OrderDate = DateTime.Parse("2016-02-14"), TotalPrice= 25},
-                /**new Order { OrderID = 2, CustomerId = customer.Single(s => s.LastName == "יעקובסן").CustomerID, ProductID = menu.Single(s => s.ProductName == "חומוס פול").ProductID, OrderDate = DateTime.Parse("2016-03-14"), TotalPrice= 25},
-                new Order { OrderID = 3, CustomerId = customer.Single(s => s.LastName == "רפאלי").CustomerID, ProductID = menu.Single(s => s.ProductName == "חומוס בשר").ProductID, OrderDate = DateTime.Parse("2016-04-14"), TotalPrice= 2},
-                new Order { OrderID = 4, CustomerId = customer.Single(s => s.LastName == "הררי").CustomerID, ProductID = menu.Single(s => s.ProductName == "המשולשת").ProductID, OrderDate = DateTime.Parse("2016-05-14"), TotalPrice= 38},
-                new Order { OrderID = 5, CustomerId = customer.Single(s => s.LastName == "קריבורוצקי").CustomerID, ProductID = menu.Single(s => s.ProductName == "מנה סלט").ProductID, OrderDate = DateTime.Parse("2016-05-14"), TotalPrice= 34},
-                new Order { OrderID = 6, CustomerId = customer.Single(s => s.LastName == "מילר").CustomerID, ProductID = menu.Single(s => s.ProductName == "חומוס משאוושה").ProductID, OrderDate = DateTime.Parse("2016-06-14"), TotalPrice= 25},
-                new Order { OrderID = 7, CustomerId = customer.Single(s => s.LastName == "מילר").CustomerID, ProductID = menu.Single(s => s.ProductName == "חומוס").ProductID, OrderDate = DateTime.Parse("2016-06-14"), TotalPrice= 34}
+                /*
+                new Order { OrderID = 1, 2, ProductID = 2, OrderDate = DateTime.Parse("2016-02-14"), TotalPrice= 25},
+                new Order { OrderID = 2, CustomerId = 3, OrderDate = DateTime.Parse("2016-03-14"), TotalPrice= 25}),
+                new Order { OrderID = 3, CustomerId = 4, ProductID = menu.Single(s => s.ProductName == "חומוס בשר").ProductID, OrderDate = DateTime.Parse("2016-04-14"), TotalPrice= 2},
+                new Order { OrderID = 4, CustomerId = 5, ProductID = menu.Single(s => s.ProductName == "המשולשת").ProductID, OrderDate = DateTime.Parse("2016-05-14"), TotalPrice= 38},
+                new Order { OrderID = 5, CustomerId = 2, ProductID = menu.Single(s => s.ProductName == "מנה סלט").ProductID, OrderDate = DateTime.Parse("2016-05-14"), TotalPrice= 34},
+                new Order { OrderID = 6, CustomerId = 3 = menu.Single(s => s.ProductName == "חומוס משאוושה").ProductID, OrderDate = DateTime.Parse("2016-06-14"), TotalPrice= 25},
+                new Order { OrderID = 7, CustomerId = 7, ProductID = menu.Single(s => s.ProductName == "חומוס").ProductID, OrderDate = DateTime.Parse("2016-06-14"), TotalPrice= 34}
                 */
             };
             orders.ForEach(o => context.Orders.AddOrUpdate(p => p.OrderID, o));
