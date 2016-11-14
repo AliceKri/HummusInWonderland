@@ -27,7 +27,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("עלינו", "About", "Home")</li>
                     <li>@Html.ActionLink("צור קשר", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("סניפים", "Branches", "Branch")</li>
+                    <li>@Html.ActionLink("סניפים", "Index", "Branch")</li>
                     @if (sessionUser != null && sessionUser.FirstName == "admin")
                     {
                         <li>@Html.ActionLink("לקוחות", "Index", "Customers")</li>
