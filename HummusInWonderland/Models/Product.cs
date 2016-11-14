@@ -5,6 +5,11 @@ namespace HummusInWonderland.Models
 {
     public class Product
     {
+        public Product()
+        {
+            this.Orders = new List<Order>();
+        }
+
         [Key]
         public int ProductID { get; set; }
 
@@ -26,5 +31,7 @@ namespace HummusInWonderland.Models
 
         [Display(Name = "תמונת המנה")]
         public string ProductImage { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

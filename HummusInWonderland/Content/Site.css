@@ -77,5 +77,13 @@ a.navbar-brand {
 }
 
 .visible {
-    display: block !important;
+    display: inline-block !important;
+}
+
+th {
+    text-align: right;
+}
+
+.list-group-item-text {
+    padding-left: 109px;
 }
