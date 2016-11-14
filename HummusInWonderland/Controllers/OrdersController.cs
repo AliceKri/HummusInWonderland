@@ -2,6 +2,7 @@
 using HummusInWonderland.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -16,17 +17,7 @@ namespace HummusInWonderland.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            ////TODO: To check if it works
-            //var query = (from q in db.Orders
-            //             group q by q.ProductID into g
-            //             select new
-            //             {
-            //                 OrderID = g.Key,
-            //                 Order = g
-            //             });
-
-            //return View(query.ToList());
-            return View();
+            return View(db.Orders.ToList());
         }
 
         [HttpPost]
@@ -53,6 +44,85 @@ namespace HummusInWonderland.Controllers
             //            });
 
             return View();//query.ToList()); ;
+        }
+
+        // GET: Orders
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Order order = db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(order);
+        }
+
+        // GET: Order/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Order order= db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(order);
+        }
+
+        // POST: Order/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            Order order = db.Orders.Find(id);
+            db.Orders.Remove(order);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        // GET: Order/Edit/:id
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Order order = db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(order);
+        }
+
+        // POST
+        [HttpPost]
+        public JsonResult RemoveFromOrder(int orderId, int productId)
+        {
+            Order order = db.Orders.Find(orderId);
+            if (order == null)
+            {
+                return Json(false);
+            }
+            Product prod = order.Products.FirstOrDefault(p => p.ProductID == productId);
+
+            if (prod == null)
+            {
+                return Json(false);
+            }
+
+            order.Products.Remove(prod);
+            db.SaveChanges();
+            return Json(true);
         }
 
         public ActionResult ShoppingCart()

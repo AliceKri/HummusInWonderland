@@ -11,7 +11,7 @@ namespace HummusInWonderland.DAL
     {
         protected override void Seed(HummhusInWonderlandContext context)
         {
-           var menu = new List<Product>
+            var menu = new List<Product>
             {
                 new Product { ProductID = 1,   ProductName = "חומוס בשר",
                     ProductDescription = "חומוס עם בשר בקר טחון, גרגרים, פטרוזיליה, שמן זית, כמון, פפריקה, 2פיתות, חמוצים",
@@ -62,21 +62,24 @@ namespace HummusInWonderland.DAL
             customer.ForEach(c => context.Customers.Add(c));
             context.SaveChanges();
 
-            /**
             var orders = new List<Order>
             {
-                new Order { OrderID = 1, CustomerId = customer.Single(s => s.LastName == "דניאל").CustomerID, ProductID = menu.Single(s => s.ProductName == "חומוס").ProductID, OrderDate = DateTime.Parse("2016-02-14"), TotalPrice= 25},
-                new Order { OrderID = 2, CustomerId = customer.Single(s => s.LastName == "יעקובסן").CustomerID, ProductID = menu.Single(s => s.ProductName == "חומוס פול").ProductID, OrderDate = DateTime.Parse("2016-03-14"), TotalPrice= 25},
-                new Order { OrderID = 3, CustomerId = customer.Single(s => s.LastName == "רפאלי").CustomerID, ProductID = menu.Single(s => s.ProductName == "חומוס בשר").ProductID, OrderDate = DateTime.Parse("2016-04-14"), TotalPrice= 2},
-                new Order { OrderID = 4, CustomerId = customer.Single(s => s.LastName == "הררי").CustomerID, ProductID = menu.Single(s => s.ProductName == "המשולשת").ProductID, OrderDate = DateTime.Parse("2016-05-14"), TotalPrice= 38},
-                new Order { OrderID = 5, CustomerId = customer.Single(s => s.LastName == "קריבורוצקי").CustomerID, ProductID = menu.Single(s => s.ProductName == "מנה סלט").ProductID, OrderDate = DateTime.Parse("2016-05-14"), TotalPrice= 34},
-                new Order { OrderID = 6, CustomerId = customer.Single(s => s.LastName == "מילר").CustomerID, ProductID = menu.Single(s => s.ProductName == "חומוס משאוושה").ProductID, OrderDate = DateTime.Parse("2016-06-14"), TotalPrice= 25},
-                new Order { OrderID = 7, CustomerId = customer.Single(s => s.LastName == "מילר").CustomerID, ProductID = menu.Single(s => s.ProductName == "חומוס").ProductID, OrderDate = DateTime.Parse("2016-06-14"), TotalPrice= 34}
+                new Order { OrderID = 1, CustomerId = customer.Single(s => s.LastName == "יעקובסן").CustomerID, OrderDate = DateTime.Parse("2016-02-14")},
+                new Order { OrderID = 2, CustomerId = customer.Single(s => s.LastName == "יעקובסן").CustomerID, OrderDate = DateTime.Parse("2016-03-14")},
+                new Order { OrderID = 3, CustomerId = customer.Single(s => s.LastName == "רפאלי").CustomerID,  OrderDate = DateTime.Parse("2016-04-14")},
+                new Order { OrderID = 4, CustomerId = customer.Single(s => s.LastName == "הררי").CustomerID, OrderDate = DateTime.Parse("2016-05-14")},
+                new Order { OrderID = 5, CustomerId = customer.Single(s => s.LastName == "קריבורוצקי").CustomerID, OrderDate = DateTime.Parse("2016-05-14")},
+                new Order { OrderID = 6, CustomerId = customer.Single(s => s.LastName == "מילר").CustomerID, OrderDate = DateTime.Parse("2016-06-14")},
+                new Order { OrderID = 7, CustomerId = customer.Single(s => s.LastName == "מילר").CustomerID, OrderDate = DateTime.Parse("2016-06-14")}
 
             };
-            orders.ForEach(o => context.Orders.Add(o));
+            orders.ForEach(o => {
+                o.Products.Add(menu.Single(s => s.ProductName == "חומוס"));
+                context.Orders.Add(o);
+            });
             context.SaveChanges();
 
+            /**
             // todo: is it right?
             foreach (Customer c in customer)
             {

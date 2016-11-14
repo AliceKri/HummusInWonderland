@@ -19,7 +19,17 @@ namespace HummusInWonderland.Models
         public DateTime OrderDate { get; set; }
 
         [Display(Name = "מחיר כולל")]
-        public int TotalPrice { get; set; }
+        public int TotalPrice {
+            get
+            {
+                var tot = 0;
+                foreach (var p in this.Products)
+                {
+                    tot += p.Price;
+                }
+                return tot;
+            }
+        }
 
         public virtual ICollection<Product> Products { get; set; }
 
