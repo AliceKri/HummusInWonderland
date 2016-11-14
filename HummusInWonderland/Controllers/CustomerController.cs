@@ -44,10 +44,8 @@ namespace HummusInWonderland.Controllers
                 customers = customers.Where(x => x.City == City);
             }
 
-            if (gender != null)
-            {
-                customers = customers.Where(x => x.Gender == gender);
-            }
+            customers = customers.Where(x => x.Gender == gender);
+
 
             ViewBag.City = new SelectList(db.Customers.Select(x => x.City).Distinct());
             return View(customers.ToList());

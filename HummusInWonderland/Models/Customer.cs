@@ -6,8 +6,8 @@ namespace HummusInWonderland.Models
 {
     public enum Gender
     {
-        זכר,
-        נקבה
+        male,
+        female
     };
 
     public class Customer
