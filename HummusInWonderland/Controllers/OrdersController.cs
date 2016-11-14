@@ -2,6 +2,7 @@
 using HummusInWonderland.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -16,16 +17,7 @@ namespace HummusInWonderland.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            //TODO: To check if it works
-            var query = (from q in db.Orders
-                         group q by q.ProductID into g
-                         select new
-                         {
-                             OrderID = g.Key,
-                             Order = g
-                         });
-
-            return View(query.ToList());
+            return View(db.Orders.ToList());
         }
 
         [HttpPost]
@@ -38,20 +30,99 @@ namespace HummusInWonderland.Controllers
                 orders = orders.Where(x => x.Customer.FirstName == FirstName);
             }
 
-            if (!string.IsNullOrEmpty(ProductName))
+            //if (!string.IsNullOrEmpty(ProductName))
+            //{
+            //    orders = orders.Where(x => x.menu.ProductName == ProductName);
+            //}
+
+            //var query = (from o in orders
+            //            group o by o.ProductID into g
+            //            select new
+            //            {
+            //                OrderID = g.Key,
+            //                Order = g
+            //            });
+
+            return View();//query.ToList()); ;
+        }
+
+        // GET: Orders
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
             {
-                orders = orders.Where(x => x.menu.ProductName == ProductName);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Order order = db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
             }
 
-            var query = (from o in orders
-                        group o by o.ProductID into g
-                        select new
-                        {
-                            OrderID = g.Key,
-                            Order = g
-                        });
+            return View(order);
+        }
 
-            return View(query.ToList()); ;
+        // GET: Order/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Order order= db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(order);
+        }
+
+        // POST: Order/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            Order order = db.Orders.Find(id);
+            db.Orders.Remove(order);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        // GET: Order/Edit/:id
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Order order = db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(order);
+        }
+
+        // POST
+        [HttpPost]
+        public JsonResult RemoveFromOrder(int orderId, int productId)
+        {
+            Order order = db.Orders.Find(orderId);
+            if (order == null)
+            {
+                return Json(false);
+            }
+            Product prod = order.Products.FirstOrDefault(p => p.ProductID == productId);
+
+            if (prod == null)
+            {
+                return Json(false);
+            }
+
+            order.Products.Remove(prod);
+            db.SaveChanges();
+            return Json(true);
         }
 
         public ActionResult ShoppingCart()
@@ -60,13 +131,16 @@ namespace HummusInWonderland.Controllers
 
             int total = 0;
 
-            foreach (var item in (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"])
+            if (System.Web.HttpContext.Current.Session["shoppingCart"] != null)
             {
-                var product = db.Menu.Where(a => a.ProductID == item).FirstOrDefault();
-                if (product != null)
+                foreach (var item in (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"])
                 {
-                    order.Add(product);
-                    total += product.Price;
+                    var product = db.Menu.Where(a => a.ProductID == item).FirstOrDefault();
+                    if (product != null)
+                    {
+                        order.Add(product);
+                        total += product.Price;
+                    }
                 }
             }
 
@@ -78,58 +152,56 @@ namespace HummusInWonderland.Controllers
         public JsonResult AddToCart(int productID)
         {
             List<int> shoppingList = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];
-            shoppingList.Add(productID);
+
+            if (shoppingList == null)
+            {
+                shoppingList = new List<int>();
+                System.Web.HttpContext.Current.Session["shoppingCart"] = shoppingList;
+            }
+            if (!shoppingList.Contains(productID))
+                shoppingList.Add(productID);
             return Json(true);
         }
 
         public JsonResult DeleteFromCart(int productID = 0)
         {
             List<int> cart = (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"];
-            cart.Remove(productID);
-            return Json(cart.Count);
+            if (cart != null)
+            {
+                cart.Remove(productID);
+                return Json(cart.Count);
+            } else
+                return Json(0);
         }
 
         public JsonResult Pay()
         {
-            if (System.Web.HttpContext.Current.Session["user"] == null)
+            if (System.Web.HttpContext.Current.Session["user"] != null)
             {
                 return Json(false);
             }
             else
             {
+                Order order = new Order
+                {
+                    CustomerId = 1,//((Customer)System.Web.HttpContext.Current.Session["user"]).CustomerID,
+                    OrderDate = DateTime.Now,
+                    Products = new List<Product>()
+                };
+
                 foreach (var item in (List<int>)System.Web.HttpContext.Current.Session["shoppingCart"])
                 {
-                    Order order = new Order
-                    {
-                        CustomerId = ((Customer)System.Web.HttpContext.Current.Session["user"]).CustomerID,
-                        ProductID = db.Menu.Where(x => x.ProductID == item).FirstOrDefault().ProductID,
-                        OrderDate = DateTime.Now,
-                        TotalPrice = db.Menu.Where(x => x.ProductID == item).FirstOrDefault().Price
-                    };
-
-                    db.Orders.Add(order);
-                    db.Customers.Find(order.CustomerId).Orders.Add(order);
+                    order.Products.Add(db.Menu.Single(p => p.ProductID == item));
                 }
+
+                db.Orders.Add(order);
+                db.Customers.Find(order.CustomerId).Orders.Add(order);
 
                 db.SaveChanges();
                 ((List<int>)System.Web.HttpContext.Current.Session["shoppingCart"]).Clear();
 
                 return Json(true);
             }
-        }
-
-        public ActionResult GetFirstName(string term)
-        {
-            var firstNames = (from p in db.Orders where p.Customer.FirstName.Contains(term) select p.Customer.FirstName).Distinct().Take(10);
-
-            return Json(firstNames, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult GetAlbumName(string term)
-        {
-            var albumNames = (from p in db.Orders where p.menu.ProductName.Contains(term) select p.menu.ProductName).Distinct().Take(10);
-
-            return Json(albumNames, JsonRequestBehavior.AllowGet);
         }
     }
 }
