@@ -293,10 +293,17 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Branch\Index.cshtml" />
+=======
+    <Content Include="Views\Menu\Create.cshtml" />
+    <Content Include="Views\Menu\Delete.cshtml" />
+    <Content Include="Views\Menu\Edit.cshtml" />
+>>>>>>> b40b7044b088c242f39e1e3fc5aa8945d4c0cb22
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Migrations\" />
     <Folder Include="Views\Customer\" />
     <Folder Include="Views\Orders\" />
   </ItemGroup>

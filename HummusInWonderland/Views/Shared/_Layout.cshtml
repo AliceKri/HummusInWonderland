@@ -32,9 +32,9 @@
                     {
                         <li>@Html.ActionLink("לקוחות", "Index", "Customers")</li>
                     }
-                    @if (sessionUser != null && sessionUser.FirstName == "admin")
+                    @if (!(sessionUser != null && sessionUser.FirstName == "admin"))
                     {
-                        <li>@Html.ActionLink("הזמנות", "Orders", "Orders")</li>
+                        <li>@Html.ActionLink("הזמנות", "Index", "Orders")</li>
                     }
                     else
                     {
