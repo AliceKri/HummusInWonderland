@@ -15,6 +15,9 @@ namespace HummusInWonderland.Models
         [Required(ErrorMessage = "שדה חובה")]
         public int CustomerId { get; set; }
 
+        [Required(ErrorMessage = "שדה חובה")]
+        public int BranchID { get; set; }
+
         [Display(Name = "תאריך הזמנה")]
         public DateTime OrderDate { get; set; }
 
@@ -34,5 +37,7 @@ namespace HummusInWonderland.Models
         public virtual ICollection<Product> Products { get; set; }
 
         public virtual Customer Customer { get; set; }
+
+        public virtual Branch Branch { get; set; }
     }
 }

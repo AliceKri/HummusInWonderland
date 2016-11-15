@@ -4,6 +4,9 @@
     ViewBag.Title = "ערוך";
 }
 
+@{var sessionUser = (HummusInWonderland.Models.Customer)HttpContext.Current.Session["user"];}
+@if (sessionUser != null && sessionUser.FirstName == "admin")
+{
 <div dir="rtl">
     <h2>הזמנה @Html.DisplayFor(model => model.OrderID)</h2>
 
@@ -16,6 +19,15 @@
 
             <dd>
                 @Html.DisplayFor(model => model.Customer.FirstName)
+            </dd>
+
+            <dt>
+                סניף
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Branch.BranchCity);
+                @Html.DisplayFor(model => model.Branch.BranchStreet)
             </dd>
 
             <dt>
@@ -76,6 +88,7 @@
         </p>
     </div>
 </div>
+}
 
 @section scripts {
     <script type="text/javascript">

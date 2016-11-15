@@ -197,12 +197,5 @@ namespace HummusInWonderland.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        public ActionResult GetProductName(string productName)
-        {
-            var artistNames = (from p in db.Menu where p.ProductName.Contains(productName) select p.ProductName).Distinct().Take(10);
-
-            return Json(artistNames, JsonRequestBehavior.AllowGet);
-        }
     }
 }

@@ -9,7 +9,7 @@
     @{var user = (HummusInWonderland.Models.Customer)HttpContext.Current.Session["user"];}
 </div>
 <div class="row">
-     @if (!(user != null && user.FirstName == "admin"))
+     @if (user != null && user.FirstName == "admin")
     {
         <div class="col-md-1" dir="rtl">
             @Html.ActionLink("הוסף מוצר", "Create")
@@ -53,7 +53,7 @@
                         <div>צימחוני? @Html.DisplayFor(modelItem => item.Vegi)</div>
                     </div>
                     <div class="row actions">
-                        @if (!(user != null && user.FirstName == "admin"))
+                        @if (user != null && user.FirstName == "admin")
                         {
                             <div style="display: inline-block;">
                                 <a>@Html.ActionLink("ערוך", "Edit", new { productId = item.ProductID })</a> |

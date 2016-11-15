@@ -19,6 +19,15 @@
             </dd>
 
             <dt>
+                סניף
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Branch.BranchCity);
+                @Html.DisplayFor(model => model.Branch.BranchStreet)
+            </dd>
+
+            <dt>
                 @Html.DisplayNameFor(model => model.OrderDate)
             </dt>
 
@@ -58,7 +67,11 @@
             }
         </table>
         <p>
-            @Html.ActionLink("ערוך", "Edit", new { id = Model.OrderID }) |
+            @{var sessionUser = (HummusInWonderland.Models.Customer)HttpContext.Current.Session["user"];}
+            @if (sessionUser != null && sessionUser.FirstName == "admin")
+            { 
+                @Html.ActionLink("ערוך", "Edit", new { id = Model.OrderID }) @Html.Display("|")
+            }
             @Html.ActionLink("חזור", "Index")
         </p>
     </div>

@@ -3,7 +3,9 @@
 @{
     ViewBag.Title = "Delete";
 }
-
+@{var sessionUser = (HummusInWonderland.Models.Customer)HttpContext.Current.Session["user"];}
+@if (sessionUser != null && sessionUser.FirstName == "admin")
+{
 <div dir="rtl">
     <h2>מחיקה</h2>
 
@@ -18,6 +20,19 @@
 
             <dd>
                 @Html.DisplayFor(model => model.Customer.FirstName)
+            </dd>
+
+            <dt>
+                סניף
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Branch.BranchCity); 
+                @Html.DisplayFor(model => model.Branch.BranchStreet)
+            </dd>
+
+            <dd>
+                @Html.DisplayFor(model => model.TotalPrice)
             </dd>
 
             <dt>
@@ -71,3 +86,4 @@
         }
     </div>
 </div>
+}
