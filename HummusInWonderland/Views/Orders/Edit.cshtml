@@ -67,11 +67,11 @@
                         @item.Price
                     </td>
                     <td>
-                        <a id="remove_@item.ProductID" onclick="removeFromOrder(@Model.OrderID, @item.ProductID, @item.Price)">הסר מהסל</a>
+                        <a id="remove_@item.ProductID" onclick="removeFromOrder(@Model.OrderID, @item.ProductID, @item.Price)">מחק מההזמנה</a>
                     </td>
                 </tr>
             }
-            <tr>
+            <tr id="last-row">
                 <td>
                     
                 </td>
@@ -82,6 +82,16 @@
                 </td>
             </tr>
         </table>
+        <div class="form-group">
+            <label for="sel1">הוסף מוצר</label>
+            <select class="form-control" id="select-product">
+                @foreach (var product in ViewBag.products)
+                {
+                    <option value="@product.ProductID">@product.ProductName</option>
+                }
+            </select>
+            <button type="button" class="btn btn-primary" onclick="addProduct(@Model.OrderID)">הוסף</button>
+        </div>
         
         <p>
             @Html.ActionLink("חזור", "Index")
@@ -104,6 +114,31 @@
 
                     var totalPrice = $("#price").text();
                     $("#price").text(totalPrice - price)
+                }),
+                error: (function (xhr, status) {
+                    alert(status);
+                })
+            });
+        }
+
+        function addProduct(orderId) {
+            var productId = $("#select-product").val();
+            $.ajax({
+                url: '/Orders/AddProductToOrder',
+                type: 'Post',
+                dataType: 'Json',
+                data: { orderId: orderId, productId: productId},
+                success: (function (result) {
+                    if (result === false) {
+                        alert('לא ניתן להוסיף את מוצר זה');
+                        return;
+                    }
+
+                    var html = "<tr><td>" + result.ProductName + "</td><td>" + result.Price + "</td>";
+                    html += "<td><a id='remove_" + productId + "' onclick='removeFromOrder(" + orderId + ", " + productId + ", " + result.Price + ")'>מחק מההזמנה</a></td></tr>";
+                    $("#last-row").before(html);
+                    var totalPrice = $("#price").text();
+                    $("#price").text(parseInt(totalPrice) + parseInt(result.Price));
                 }),
                 error: (function (xhr, status) {
                     alert(status);

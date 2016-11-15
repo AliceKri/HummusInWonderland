@@ -22,6 +22,14 @@ namespace HummusInWonderland.Models
         [Required(ErrorMessage = "שדה חובה")]
         public string LastName { get; set; }
 
+        public string DisplayName
+        {
+            get
+            {
+                return this.FirstName + " " + this.LastName;
+            }
+        }
+
         [Display(Name = "תאריך לידה")]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "שדה חובה")]

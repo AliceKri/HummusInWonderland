@@ -22,6 +22,14 @@ namespace HummusInWonderland.Models
         [Required(ErrorMessage = "שדה חובה")]
         public string BranchStreet { get; set; }
 
+        public string DisplayName
+        {
+            get
+            {
+                return this.BranchName + " (" + this.BranchCity + " - " + this.BranchStreet + ")";
+            }
+        }
+
         [Display(Name = "מספר בית")]
         [Required(ErrorMessage = "שדה חובה")]
         public int BranchsHouseNumber { get; set; }

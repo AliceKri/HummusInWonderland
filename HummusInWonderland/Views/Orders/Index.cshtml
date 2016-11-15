@@ -6,6 +6,21 @@
 
 <h2 dir="rtl">הזמנות</h2>
 
+@using (Html.BeginForm("Index", "Orders", FormMethod.Post))
+{
+    <div class="col-lg-10" dir="rtl">
+        <label>חיפוש : </label>
+        <div>
+            <label>סניף : </label>
+            @Html.DropDownList("branchId", (SelectList)ViewBag.branches, "בחר סניף")
+            <label>לקוח : </label>
+            @Html.DropDownList("customerId", (SelectList)ViewBag.customers, "בחר לקוח")
+
+            <input type="submit" name="שלח" value="חפש" />
+        </div>
+    </div>
+}
+
 <table dir="rtl" class="table">
     <tr>
         <th>
@@ -44,8 +59,8 @@
             @{var sessionUser = (HummusInWonderland.Models.Customer)HttpContext.Current.Session["user"];}
             @if (sessionUser != null && sessionUser.FirstName == "admin")
             {
-                @Html.Display("|") @Html.ActionLink("ערוך", "Edit", new { id = item.OrderID })
-                @Html.Display("|") @Html.ActionLink("מחק", "Delete", new { id=item.OrderID })
+                <div style="display:inline;">|</div> @Html.ActionLink("ערוך", "Edit", new { id = item.OrderID })
+                <div style="display:inline;">|</div> @Html.ActionLink("מחק", "Delete", new { id=item.OrderID })
             }
         </td>
     </tr>

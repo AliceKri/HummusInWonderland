@@ -17,33 +17,29 @@ namespace HummusInWonderland.Controllers
         // GET: Orders
         public ActionResult Index()
         {
+            ViewBag.branches = new SelectList(db.Branches, "BranchID", "DisplayName");
+            ViewBag.customers = new SelectList(db.Customers, "CustomerID", "DisplayName");
             return View(db.Orders.ToList());
         }
 
         [HttpPost]
-        public ActionResult Index(string FirstName, string ProductName)
+        public ActionResult Index(int? branchId, int? customerId)
         {
+            ViewBag.branches = new SelectList(db.Branches, "BranchID", "DisplayName");
+            ViewBag.customers = new SelectList(db.Customers, "CustomerID", "DisplayName");
+
             var orders = from o in db.Orders select o;
 
-            if (!string.IsNullOrEmpty(FirstName))
+            if (branchId != null)
             {
-                orders = orders.Where(x => x.Customer.FirstName == FirstName);
+                orders = orders.Where(o => o.BranchID == branchId);
+            }
+            if (customerId != null)
+            {
+                orders = orders.Where(o => o.CustomerId == customerId);
             }
 
-            //if (!string.IsNullOrEmpty(ProductName))
-            //{
-            //    orders = orders.Where(x => x.menu.ProductName == ProductName);
-            //}
-
-            //var query = (from o in orders
-            //            group o by o.ProductID into g
-            //            select new
-            //            {
-            //                OrderID = g.Key,
-            //                Order = g
-            //            });
-
-            return View();//query.ToList()); ;
+            return View(orders.ToList());
         }
 
         // GET: Orders
@@ -101,6 +97,7 @@ namespace HummusInWonderland.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.products = db.Menu.ToList();
             return View(order);
         }
 
@@ -125,6 +122,31 @@ namespace HummusInWonderland.Controllers
             return Json(true);
         }
 
+        [HttpPost]
+        public JsonResult AddProductToOrder(int orderId, int productId)
+        {
+            Order order = db.Orders.Find(orderId);
+            if (order == null)
+            {
+                return Json(false);
+            }
+            Product prod = order.Products.FirstOrDefault(p => p.ProductID == productId);
+
+            if (prod != null)
+            {
+                return Json(false);
+            }
+            prod = db.Menu.FirstOrDefault(p => p.ProductID == productId);
+            if (prod == null)
+            {
+                return Json(false);
+            }
+
+            order.Products.Add(prod);
+            db.SaveChanges();
+            return Json(new {Price= prod.Price, ProductName = prod.ProductName});
+        }
+
         public ActionResult ShoppingCart()
         {
             List<Product> order = new List<Product>();
@@ -145,6 +167,7 @@ namespace HummusInWonderland.Controllers
             }
 
             ViewBag.Total = total;
+            ViewBag.branches = db.Branches.ToList();
             return View(order);
         }
 
@@ -174,9 +197,9 @@ namespace HummusInWonderland.Controllers
                 return Json(0);
         }
 
-        public JsonResult Pay()
+        public JsonResult Pay(int branchId = 1)
         {
-            if (System.Web.HttpContext.Current.Session["user"] != null)
+            if (System.Web.HttpContext.Current.Session["user"] == null)
             {
                 return Json(false);
             }
@@ -184,7 +207,8 @@ namespace HummusInWonderland.Controllers
             {
                 Order order = new Order
                 {
-                    CustomerId = 1,//((Customer)System.Web.HttpContext.Current.Session["user"]).CustomerID,
+                    CustomerId = ((Customer)System.Web.HttpContext.Current.Session["user"]).CustomerID,
+                    BranchID = branchId,
                     OrderDate = DateTime.Now,
                     Products = new List<Product>()
                 };
