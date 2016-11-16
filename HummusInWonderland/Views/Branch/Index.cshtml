@@ -29,26 +29,32 @@
 
 @using (Html.BeginForm("Index", "Branch", FormMethod.Post))
 {
-    <label dir="rtl">חיפוש : </label>
-    <ta dir="rtl" align="center">
-        <label>שם סניף : </label>
-        <input type="text" name="BranchName" id="BranchName" />
-        <label>עיר : </label>
-        <input type="text" name="City" id="City" />
-        <input type="submit" name="שלח" value="חפש" />
-    </ta>
+    <p dir="rtl" align="center" style="align-content">
+        <font size="4">
+            <label>חיפוש : </label>
+        </font>
+        <br />
+        <ta dir="rtl" align="center">
+            <label>שם סניף : </label>
+            <input type="text" name="BranchName" id="BranchName" />
+            <label>עיר : </label>
+            <input type="text" name="City" id="City" />
+            <input type="submit" name="שלח" value="חפש" />
+        </ta>
+    </p>
 }
 
 @if (user != null && user.FirstName == "admin")
 {
-    <p>
+    <p dir="rtl">
+    @{var sessionUser = (HummusInWonderland.Models.Customer)HttpContext.Current.Session["user"];}
+    @if (sessionUser != null && sessionUser.FirstName == "admin") { 
         @Html.ActionLink("צור סניף חדש", "Create")
+    }
     </p>
 }
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<br/>
+<br />
 <table class="table" dir="rtl" align="center">
     <tr>
         <th>
@@ -87,9 +93,12 @@
             @Html.DisplayFor(modelItem => item.BranchsPhoneNumber)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BranchID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BranchID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BranchID })
+            @{var sessionUser = (HummusInWonderland.Models.Customer)HttpContext.Current.Session["user"];}
+            @if (sessionUser != null && sessionUser.FirstName == "admin")
+            {
+                @Html.Display("|") @Html.ActionLink("ערוך ", "Edit", new { id = item.BranchID })
+                @Html.Display("|") @Html.ActionLink("מחק ", "Delete", new { id = item.BranchID })
+            }
         </td>
     </tr>
 }

@@ -1,19 +1,19 @@
 ﻿@model HummusInWonderland.Models.Customer
 
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "התחברות";
 }
 
-<h2>Login</h2>
+<h2 dir="rtl">התחברות</h2>
 
 <section id="loginForm">
-    <h4>אנא מלא את פרטייך:</h4>
+    <h4 dir="rtl">אנא מלא את פרטייך:</h4>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
 
-        <div>
+        <div dir="rtl">
             <div class="form-group">
                 @Html.LabelFor(model => model.Email)
                 <div class="col-md-10">
@@ -29,8 +29,14 @@
                 </div>
             </div>
         </div>
-        <input type="submit" value="התחבר" /><span class="error">@ViewBag.ErrMsg</span>
-        <p>
+        <p dir="rtl">
+            <input type="submit" value="התחבר" />
+        </p>
+        <br />
+        <b><span class="error" style="color:red">@ViewBag.ErrorMsg</span></b>
+        <br />
+        <br />
+        <p dir="rtl">
             אין לך חשבון? @Html.ActionLink("הירשם", "Create")
         </p>
     }

@@ -20,6 +20,24 @@ namespace HummusInWonderland.Controllers
             return View(db.Branches.ToList());
         }
 
+        [HttpPost]
+        public ActionResult Index(string BranchName, string City)
+        {
+            var branches = from b in db.Branches select b;
+
+            if (!string.IsNullOrEmpty(BranchName))
+            {
+                branches = branches.Where(x => x.BranchName == BranchName);
+            }
+
+            if (!string.IsNullOrEmpty(City))
+            {
+                branches = branches.Where(x => x.BranchCity == City);
+            }
+
+            return View(branches.ToList());
+        }
+
         // GET: Branch/Details/5
         public ActionResult Details(int id)
         {
