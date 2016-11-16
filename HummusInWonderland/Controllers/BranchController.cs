@@ -39,9 +39,18 @@ namespace HummusInWonderland.Controllers
         }
 
         // GET: Branch/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Branch branch = db.Branches.Find(id);
+            if (branch == null)
+            {
+                return HttpNotFound();
+            }
+            return View(branch);
         }
 
         // GET: Branch/Create

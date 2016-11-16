@@ -96,9 +96,10 @@
             @{var sessionUser = (HummusInWonderland.Models.Customer)HttpContext.Current.Session["user"];}
             @if (sessionUser != null && sessionUser.FirstName == "admin")
             {
-                @Html.Display("|") @Html.ActionLink("ערוך ", "Edit", new { id = item.BranchID })
-                @Html.Display("|") @Html.ActionLink("מחק ", "Delete", new { id = item.BranchID })
-            }
+                @Html.Display("|") @Html.ActionLink("ערוך ", "Edit", new { id = item.BranchID }) <text>|</text>
+                @Html.Display("|") @Html.ActionLink("מחק ", "Delete", new { id = item.BranchID }) <text>|</text>
+                @Html.Display("|") @Html.ActionLink("פרטים ", "Details", new { id = item.BranchID })<text>|</text>
+}
         </td>
     </tr>
 }

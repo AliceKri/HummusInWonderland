@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace HummusInWonderland.Models
@@ -39,5 +40,15 @@ namespace HummusInWonderland.Models
         public virtual Customer Customer { get; set; }
 
         public virtual Branch Branch { get; set; }
+    }
+
+    public class OrderYearsViewModel
+    {
+        [DisplayName("שנה")]
+        public int year { get; set; }
+
+        [DisplayName("מספר ההזמנות בשנה")]
+        public int postCount { get; set; }
+
     }
 }

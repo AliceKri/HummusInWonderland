@@ -199,5 +199,27 @@ namespace HummusInWonderland.Controllers
 
             return Json(lastNames, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult CustomersByBranch(int? id)
+        {
+            if (id == null)
+            { return new HttpStatusCodeResult(HttpStatusCode.BadRequest); }
+
+            var query = from c in db.Customers
+                        join b in db.Branches on
+                        c.Orders.Select(x => x.Branch).Where(y => y.BranchID == id).FirstOrDefault().BranchID equals b.BranchID
+                        where b.BranchID == id
+                        select new BranchCustomerView
+                        {
+                            BranchID = b.BranchID,
+                            branchName = b.BranchName,
+                            branchCity = b.BranchCity,
+                            firstName = c.FirstName,
+                            lastName = c.LastName,
+                            birthDate = c.BirthDate
+                        };
+
+            return View(query.ToList().Distinct());
+        }
     }
 }

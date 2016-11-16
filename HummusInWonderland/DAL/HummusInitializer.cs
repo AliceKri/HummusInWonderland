@@ -68,19 +68,19 @@ namespace HummusInWonderland.DAL
 
             var branch = new List<Branch>
             {
-                new Branch {BranchID = 1, BranchCity= "תל אביב", BranchName = "חומוס פלא", BranchsHouseNumber = 3,BranchsPhoneNumber = "03-4678953", BranchStreet = "אבן גבירול" },
-                new Branch {BranchID = 2, BranchCity= "ירושלים", BranchName = "חומוס פלא", BranchsHouseNumber = 12,BranchsPhoneNumber = "04-7895034", BranchStreet = "שלמה המלך" },
-                new Branch {BranchID = 3, BranchCity= "באר שבע", BranchName = "חומוס פלא", BranchsHouseNumber = 56,BranchsPhoneNumber = "08-6457890", BranchStreet = "אברהם אבינו" },
-                new Branch {BranchID = 4, BranchCity= "חיפה", BranchName = "חומוס פלא", BranchsHouseNumber = 34,BranchsPhoneNumber = "09-8765942", BranchStreet = "פרחים" }
+                new Branch {BranchID = 1, BranchCity= "תל אביב", BranchName = "חומוס פלא", BranchsHouseNumber = 7,BranchsPhoneNumber = "03-4678953", BranchStreet = "קרליבך" , CoordX = 32.066883, CoordY = 34.783395},
+                new Branch {BranchID = 2, BranchCity= "ירושלים", BranchName = "חומוס פלא", BranchsHouseNumber = 12,BranchsPhoneNumber = "04-7895034", BranchStreet = "שלמה המלך", CoordX = 31.778688, CoordY = 35.223516},
+                new Branch {BranchID = 3, BranchCity= "באר שבע", BranchName = "חומוס פלא", BranchsHouseNumber = 56,BranchsPhoneNumber = "08-6457890", BranchStreet = "אברהם אבינו", CoordX = 31.270047, CoordY = 34.794354},
+                new Branch {BranchID = 4, BranchCity= "חיפה", BranchName = "חומוס פלא", BranchsHouseNumber = 3,BranchsPhoneNumber = "09-8765942", BranchStreet = "הנשיא", CoordX = 32.816080, CoordY = 34.979221}
             };
             branch.ForEach(b => context.Branches.AddOrUpdate(p => p.BranchID, b));
             context.SaveChanges();
 
             var orders = new List<Order>
             {
-                new Order { OrderID = 1, CustomerId = customer.Single(s => s.LastName == "יעקובסן").CustomerID, OrderDate = DateTime.Parse("2016-02-14"), BranchID = branch.Single(b => b.BranchCity == "תל אביב").BranchID},
+                new Order { OrderID = 1, CustomerId = customer.Single(s => s.LastName == "יעקובסן").CustomerID, OrderDate = DateTime.Parse("2016-02-14"), BranchID = branch.Single(b => b.BranchCity == "באר שבע").BranchID},
                 new Order { OrderID = 2, CustomerId = customer.Single(s => s.LastName == "יעקובסן").CustomerID, OrderDate = DateTime.Parse("2016-03-14"), BranchID = branch.Single(b => b.BranchCity == "תל אביב").BranchID},
-                new Order { OrderID = 3, CustomerId = customer.Single(s => s.LastName == "רפאלי").CustomerID,  OrderDate = DateTime.Parse("2016-04-14"), BranchID = branch.Single(b => b.BranchCity == "תל אביב").BranchID},
+                new Order { OrderID = 3, CustomerId = customer.Single(s => s.LastName == "רפאלי").CustomerID,  OrderDate = DateTime.Parse("2016-04-14"), BranchID = branch.Single(b => b.BranchCity == "חיפה").BranchID},
                 new Order { OrderID = 4, CustomerId = customer.Single(s => s.LastName == "הררי").CustomerID, OrderDate = DateTime.Parse("2016-05-14"), BranchID = branch.Single(b => b.BranchCity == "תל אביב").BranchID},
                 new Order { OrderID = 5, CustomerId = customer.Single(s => s.LastName == "קריבורוצקי").CustomerID, OrderDate = DateTime.Parse("2016-05-14"), BranchID = branch.Single(b => b.BranchCity == "תל אביב").BranchID},
                 new Order { OrderID = 6, CustomerId = customer.Single(s => s.LastName == "מילר").CustomerID, OrderDate = DateTime.Parse("2016-06-14"), BranchID = branch.Single(b => b.BranchCity == "תל אביב").BranchID},

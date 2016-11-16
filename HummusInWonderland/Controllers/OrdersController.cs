@@ -227,5 +227,33 @@ namespace HummusInWonderland.Controllers
                 return Json(true);
             }
         }
+
+        public ActionResult OrdersByBranch(int? id)
+        {
+            if (id == null)
+            { return new HttpStatusCodeResult(HttpStatusCode.BadRequest); }
+
+            var query = from o in db.Orders
+                        join b in db.Branches on
+                        o.BranchID equals b.BranchID
+                        where b.BranchID == id
+                        select new BranchOrdersView
+                        {
+                            BranchOrdersViewID = o.BranchID,
+                            branchName = b.BranchName,
+                            branchCity = b.BranchCity,
+                            productNames = o.Products.ToList(),
+                            orderDate = o.OrderDate
+                        };
+
+            return View(query.ToList());
+        }
+
+        public ActionResult GroupByYear()
+        {
+            // select the doch
+            var groupResult = db.Orders.GroupBy(b => b.OrderDate.Year).Select(g => new OrderYearsViewModel { year = g.Key, postCount = g.Count() });
+            return View(groupResult);
+        }
     }
 }

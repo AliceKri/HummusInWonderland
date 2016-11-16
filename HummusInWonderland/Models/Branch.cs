@@ -36,5 +36,13 @@ namespace HummusInWonderland.Models
 
         [Display(Name = "מספר טלפון")]
         public string BranchsPhoneNumber { get; set; }
+
+        [Display(Name = "נקודת רוחב")]
+        [Required(ErrorMessage = "שדה חובה")]
+        public double CoordX { get; set; }
+
+        [Display(Name = "נקודת אורך")]
+        [Required(ErrorMessage = "שדה חובה")]
+        public double CoordY { get; set; }
     }
 }
