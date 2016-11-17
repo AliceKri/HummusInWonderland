@@ -1,4 +1,12 @@
-﻿body {
+﻿@font-face{
+    font-family: myFont;
+    src: url(../fonts/glyphicons-halflings-regular.woff);
+}
+
+* {
+    font-family: myFont;
+}
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -22,6 +30,11 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+iframe:hover{
+    -webkit-transition: all 5s;
+    transition: all 2s;
+    width: 550px;
 }
 .navbar-inverse {
     background-color: #009688;
@@ -60,6 +73,11 @@ a.navbar-brand {
     margin-bottom: 3px;
 }
 
+#about{
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+}
 #menu .list-group-item > * {
     padding-right: 5px;
 }
