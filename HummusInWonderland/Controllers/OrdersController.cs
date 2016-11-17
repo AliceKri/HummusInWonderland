@@ -246,7 +246,7 @@ namespace HummusInWonderland.Controllers
                             orderDate = o.OrderDate
                         };
 
-            return View(query.ToList());
+            return View(query);
         }
 
         public ActionResult GroupByYear()
