@@ -211,7 +211,7 @@ namespace HummusInWonderland.Controllers
                         where b.BranchID == id
                         select new BranchCustomerView
                         {
-                            BranchID = b.BranchID,
+                            BranchId = b.BranchID,
                             branchName = b.BranchName,
                             branchCity = b.BranchCity,
                             firstName = c.FirstName,

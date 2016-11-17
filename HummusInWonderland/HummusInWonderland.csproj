@@ -210,7 +210,6 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\BranchOrdersView.cs" />
     <Compile Include="Models\QueryModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

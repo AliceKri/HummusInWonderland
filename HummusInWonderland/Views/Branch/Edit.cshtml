@@ -1,24 +1,22 @@
 ﻿@model HummusInWonderland.Models.Branch
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "עריכת סניף";
 }
-
-<h2>Edit</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4>Branch</h4>
+    <div class="form-horizontal" dir="rtl">
+        <h4>סניף</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.BranchID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchName)
             <div class="col-md-10">
                 @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
@@ -26,7 +24,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchCity, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchCity)
             <div class="col-md-10">
                 @Html.EditorFor(model => model.BranchCity, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchCity, "", new { @class = "text-danger" })
@@ -34,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchStreet, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchStreet)
             <div class="col-md-10">
                 @Html.EditorFor(model => model.BranchStreet, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchStreet, "", new { @class = "text-danger" })
@@ -42,7 +40,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchsHouseNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchsHouseNumber)
             <div class="col-md-10">
                 @Html.EditorFor(model => model.BranchsHouseNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchsHouseNumber, "", new { @class = "text-danger" })
@@ -50,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchsPhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchsPhoneNumber)
             <div class="col-md-10">
                 @Html.EditorFor(model => model.BranchsPhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchsPhoneNumber, "", new { @class = "text-danger" })
@@ -58,14 +56,14 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div>
+                <input type="submit" value="שמור שינויים" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
-<div>
+<div dir="rtl">
     @Html.ActionLink("Back to List", "Index")
 </div>
 

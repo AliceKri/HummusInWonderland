@@ -239,10 +239,10 @@ namespace HummusInWonderland.Controllers
                         where b.BranchID == id
                         select new BranchOrdersView
                         {
-                            BranchOrdersViewID = o.BranchID,
+                            branchId = o.BranchID,
                             branchName = b.BranchName,
                             branchCity = b.BranchCity,
-                            productNames = o.Products.ToList(),
+                            productNames = o.Products.ToString(),
                             orderDate = o.OrderDate
                         };
 

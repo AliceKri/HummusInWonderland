@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HummusInWonderland.DAL;
+using HummusInWonderland.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,8 @@ namespace HummusInWonderland.Controllers
 {
     public class HomeController : Controller
     {
+        private HummhusInWonderlandContext db = new HummhusInWonderlandContext();
+
         public ActionResult Index()
         {
             return View();
@@ -26,6 +30,11 @@ namespace HummusInWonderland.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public JsonResult GetBranches()
+        {
+            return Json(db.Branches.ToArray<Branch>());
         }
     }
 }
