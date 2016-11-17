@@ -8,7 +8,7 @@ namespace HummusInWonderland.Models
 {
     public class Branch
     {
-        public int BranchId { get; set; }
+        public int BranchID { get; set; }
 
         [Display(Name = "שם החנות")]
         [Required(ErrorMessage = "שדה חובה")]
@@ -22,11 +22,27 @@ namespace HummusInWonderland.Models
         [Required(ErrorMessage = "שדה חובה")]
         public string BranchStreet { get; set; }
 
+        public string DisplayName
+        {
+            get
+            {
+                return this.BranchName + " (" + this.BranchCity + " - " + this.BranchStreet + ")";
+            }
+        }
+
         [Display(Name = "מספר בית")]
         [Required(ErrorMessage = "שדה חובה")]
         public int BranchsHouseNumber { get; set; }
 
         [Display(Name = "מספר טלפון")]
         public string BranchsPhoneNumber { get; set; }
+
+        [Display(Name = "נקודת רוחב")]
+        [Required(ErrorMessage = "שדה חובה")]
+        public double CoordX { get; set; }
+
+        [Display(Name = "נקודת אורך")]
+        [Required(ErrorMessage = "שדה חובה")]
+        public double CoordY { get; set; }
     }
 }

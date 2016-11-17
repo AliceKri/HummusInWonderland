@@ -1,4 +1,4 @@
-﻿using HummhusInWonderland.DAL;
+﻿using HummusInWonderland.DAL;
 using HummusInWonderland.Models;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace HummusInWonderland.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string FirstName, string LastName, string City, string Gender)
+        public ActionResult Index(string FirstName, string LastName, string City, Gender gender)
         {
             var customers = from c in db.Customers select c;
 
@@ -44,10 +44,8 @@ namespace HummusInWonderland.Controllers
                 customers = customers.Where(x => x.City == City);
             }
 
-            if (!string.IsNullOrEmpty(Gender))
-            {
-                customers = customers.Where(x => x.Gender == Gender);
-            }
+            customers = customers.Where(x => x.Gender == gender);
+
 
             ViewBag.City = new SelectList(db.Customers.Select(x => x.City).Distinct());
             return View(customers.ToList());
@@ -200,6 +198,28 @@ namespace HummusInWonderland.Controllers
             var lastNames = (from p in db.Customers where p.LastName.Contains(term) select p.LastName).Distinct().Take(10);
 
             return Json(lastNames, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CustomersByBranch(int? id)
+        {
+            if (id == null)
+            { return new HttpStatusCodeResult(HttpStatusCode.BadRequest); }
+
+            var query = from c in db.Customers
+                        join b in db.Branches on
+                        c.Orders.Select(x => x.Branch).Where(y => y.BranchID == id).FirstOrDefault().BranchID equals b.BranchID
+                        where b.BranchID == id
+                        select new BranchCustomerView
+                        {
+                            BranchId = b.BranchID,
+                            branchName = b.BranchName,
+                            branchCity = b.BranchCity,
+                            firstName = c.FirstName,
+                            lastName = c.LastName,
+                            birthDate = c.BirthDate
+                        };
+
+            return View(query.ToList().Distinct());
         }
     }
 }

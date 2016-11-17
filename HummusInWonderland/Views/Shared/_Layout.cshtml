@@ -27,19 +27,16 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("עלינו", "About", "Home")</li>
                     <li>@Html.ActionLink("צור קשר", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("סניפים", "Branches", "Branch")</li>
+                    <li>@Html.ActionLink("סניפים", "Index", "Branch")</li>
                     @if (sessionUser != null && sessionUser.FirstName == "admin")
                     {
-                        <li>@Html.ActionLink("לקוחות", "Index", "Customers")</li>
+                        <li>@Html.ActionLink("לקוחות", "Index", "Customer")</li>
                     }
                     @if (sessionUser != null && sessionUser.FirstName == "admin")
                     {
-                        <li>@Html.ActionLink("הזמנות", "Orders", "Orders")</li>
+                        <li>@Html.ActionLink("הזמנות", "Index", "Orders")</li>
                     }
-                    else
-                    {
-                        <li>@Html.ActionLink("סל הקניות שלי", "ShoppingCart", "Orders")</li>
-                    }
+                    <li>@Html.ActionLink("סל הקניות שלי", "ShoppingCart", "Orders")</li>
                     <li>@Html.ActionLink("תפריט", "Index", "Menu")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

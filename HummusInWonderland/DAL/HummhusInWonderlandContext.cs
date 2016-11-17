@@ -2,7 +2,7 @@
 using System.Data.Entity.ModelConfiguration.Conventions;
 using HummusInWonderland.Models;
 
-namespace HummhusInWonderland.DAL
+namespace HummusInWonderland.DAL
 {
     public class HummhusInWonderlandContext : DbContext
     {
@@ -10,7 +10,7 @@ namespace HummhusInWonderland.DAL
 	    {
 	    }
 
-        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Product> Menu { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Branch> Branches { get; set; }

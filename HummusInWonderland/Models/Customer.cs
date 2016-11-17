@@ -4,9 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HummusInWonderland.Models
 {
+    public enum Gender
+    {
+        male,
+        female
+    };
+
     public class Customer
     {
-        public int CustomerId { get; set; }
+        public int CustomerID { get; set; }
 
         [Display(Name = "שם פרטי")]
         [Required(ErrorMessage = "שדה חובה")]
@@ -16,6 +22,14 @@ namespace HummusInWonderland.Models
         [Required(ErrorMessage = "שדה חובה")]
         public string LastName { get; set; }
 
+        public string DisplayName
+        {
+            get
+            {
+                return this.FirstName + " " + this.LastName;
+            }
+        }
+
         [Display(Name = "תאריך לידה")]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "שדה חובה")]
@@ -23,7 +37,7 @@ namespace HummusInWonderland.Models
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "מין")]
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
 
         [Display(Name = "אימייל")]
         [Required(ErrorMessage = "שדה חובה")]

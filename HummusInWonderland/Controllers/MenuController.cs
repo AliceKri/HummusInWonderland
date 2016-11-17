@@ -1,4 +1,4 @@
-﻿using HummhusInWonderland.DAL;
+﻿using HummusInWonderland.DAL;
 using HummusInWonderland.Models;
 using System;
 using System.Collections.Generic;
@@ -12,37 +12,50 @@ using System.Web.Mvc;
 
 namespace HummusInWonderland.Controllers
 {
+    public enum OPTIONS
+    {
+        כן,
+        לא,
+        שניהם
+    };
+
     public class MenuController : Controller
     {
         private HummhusInWonderlandContext db = new HummhusInWonderlandContext();
         // GET: Menu
         public ActionResult Index()
         {
-            ViewBag.Menu = new SelectList(db.Menus, "ProductId", "ProductName");
-            return View();
+            ViewBag.MaxPrice = db.Menu.Select(x => x.Price).Max();
+            return View(db.Menu.ToList());
         }
 
         [HttpPost]
-        public ActionResult Index(int ProductID, string ProductDescription, String ProductName, int? Price)
+        public ActionResult Index(OPTIONS? Vegi, OPTIONS? isPic, int? Price)
         {
-            var menus = from a in db.Menus select a;
+            var menus = from a in db.Menu select a;
 
-            if (!String.IsNullOrEmpty(ProductDescription))
+            if (Vegi != null)
             {
-                menus = menus.Where(x => x.ProductDescription == ProductDescription);
+                if (OPTIONS.כן.Equals(Vegi))
+                    menus = menus.Where(x => x.Vegi == true);
+                else if (OPTIONS.לא.Equals(Vegi))
+                    menus = menus.Where(x => x.Vegi == false);
             }
 
-            if (!String.IsNullOrEmpty(ProductName))
+            if (isPic != null)
             {
-                menus = menus.Where(x => x.ProductName == ProductName);
+                if (OPTIONS.כן.Equals(isPic))
+                    menus = menus.Where(x => x.ProductImage != "/Images/No-Image.jpg");
+                else if (OPTIONS.לא.Equals(isPic))
+                    menus = menus.Where(x => x.ProductImage.ToLower().Equals("/Images/No-Image.jpg".ToLower()));
             }
 
-            if(Price != null)
+            if (Price != null)
             {
-                menus = menus.Where(x => x.Price == Price);
+                menus = menus.Where(x => x.Price <= Price);
             }
 
-            ViewBag.MaxPrice = db.Menus.Select(x => x.Price).Max();
+            ViewBag.MaxPrice = db.Menu.Select(x => x.Price).Max();
             return View(menus.ToList());
         }
 
@@ -54,14 +67,14 @@ namespace HummusInWonderland.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Menu menu = db.Menus.Find(productID);
+            Product product = db.Menu.Find(productID);
 
-            if (menu == null)
+            if (product == null)
             {
                 return HttpNotFound();
             }
 
-            return View(menu);
+            return View(product);
         }
 
         // GET: Menu/Create
@@ -72,7 +85,7 @@ namespace HummusInWonderland.Controllers
 
         // POST: Menu/Create
         [HttpPost]
-        public ActionResult Create(Menu menu, HttpPostedFileBase file)
+        public ActionResult Create(Product product, HttpPostedFileBase file)
         {
             var physicalPath = "";
             var path = "";
@@ -80,7 +93,6 @@ namespace HummusInWonderland.Controllers
             if (file == null)
             {
                 physicalPath = "/Images/No-Image.jpg";
-                
             }
 
             if (file != null && file.ContentLength > 0)
@@ -88,47 +100,47 @@ namespace HummusInWonderland.Controllers
                 var FileName = string.Format("{0}.{1}", Guid.NewGuid(), "jpg");
                 path = Path.Combine(Server.MapPath("~/Images"), FileName);
 
-                Size szDimensions = new Size(340, 300);
+                Size szDimensions = new Size(98, 100);
                 Bitmap resizedImg = new Bitmap(Image.FromStream(file.InputStream), szDimensions.Width, szDimensions.Height);
 
                 physicalPath = "/Images/" + FileName;
                 resizedImg.Save(path);
             }
 
-            menu.ProductImage = physicalPath;
+            product.ProductImage = physicalPath;
 
             if (ModelState.IsValid)
             {
-                db.Menus.Add(menu);
+                db.Menu.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(menu);
+            return View(product);
         }
 
         // GET: Menu/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? productId)
         {
-            if (id == null)
+            if (productId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Menu menu = db.Menus.Find(id);
-            if (menu == null)
+            Product product = db.Menu.Find(productId);
+            if (product == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.image = menu.ProductImage;
+            ViewBag.image = product.ProductImage;
 
-            return View(menu);
+            return View(product);
         }
 
         // POST: Menu/Edit/5
         [HttpPost]
-        public ActionResult Edit(Menu menu, HttpPostedFileBase file)
+        public ActionResult Edit(Product product, HttpPostedFileBase file)
         {
             var physicalPath = "";
 
@@ -146,17 +158,17 @@ namespace HummusInWonderland.Controllers
             }
             if (physicalPath != "")
             {
-                menu.ProductImage = physicalPath;
+                product.ProductImage = physicalPath;
             }
 
             if (ModelState.IsValid)
             {
-                db.Entry(menu).State = EntityState.Modified;
+                db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(menu);
+            return View(product);
         }
 
         // GET: Menu/Delete/5
@@ -166,13 +178,13 @@ namespace HummusInWonderland.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Menu menu = db.Menus.Find(productId);
-            if (menu == null)
+            Product product = db.Menu.Find(productId);
+            if (product == null)
             {
                 return HttpNotFound();
             }
 
-            return View(menu);
+            return View(product);
         }
 
         // POST: Menu/Delete/5
@@ -180,17 +192,10 @@ namespace HummusInWonderland.Controllers
         public ActionResult Delete(int productId)
         {
 
-            Menu menu = db.Menus.Find(productId);
-            db.Menus.Remove(menu);
+            Product product = db.Menu.Find(productId);
+            db.Menu.Remove(product);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult GetProductName(string productName)
-        {
-            var artistNames = (from p in db.Menus where p.ProductName.Contains(productName) select p.ProductName).Distinct().Take(10);
-
-            return Json(artistNames, JsonRequestBehavior.AllowGet);
         }
     }
 }
